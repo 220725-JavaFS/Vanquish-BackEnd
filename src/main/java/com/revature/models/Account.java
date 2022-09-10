@@ -19,6 +19,12 @@ public class Account {
 	private String username;
 	@Column(nullable = false)
 	private String userPwd;
+	@Column
+	private String city;
+	@Column
+	private String character;
+	@Column
+	private int silver;
 	public Account() {
 		super();
 	}
