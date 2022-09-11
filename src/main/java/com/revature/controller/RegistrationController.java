@@ -13,28 +13,30 @@ import com.revature.models.Account;
 import com.revature.services.AccountService;
 
 @RestController
-@RequestMapping(value="/login")
+@RequestMapping(value="/registeruser")
 @CrossOrigin("*")
-public class LoginController {
+public class RegistrationController {
+	
 	
 	private AccountService accountService;
-
+	
+	
 	@Autowired
-	public LoginController(AccountService accountService) {
-		super();
+	public RegistrationController(AccountService accountService) {
 		this.accountService = accountService;
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<Account> getAccount(@RequestBody Account account){
-		String userPwd = account.getUserPwd();
-		Account userAccount = accountService.getAccountByUser(account.getUsername());
+	public ResponseEntity<Account> newUser(@RequestBody Account account){
+		Account dbAccount = accountService.addOrUpdate(account);
+		Account tempAccount = accountService.getAccountByUser(account.getUsername());
 		
-		if(userAccount != null && userAccount.getUserPwd().equals(userPwd)) {
-			return ResponseEntity.status(HttpStatus.OK).body(userAccount);
+		if(tempAccount == null) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(dbAccount);
 		}else {
 			return ResponseEntity.status(204).build();
 		}
+		
+		
 	}
-	
 }

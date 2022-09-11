@@ -19,13 +19,23 @@ public class Account {
 	private String username;
 	@Column(nullable = false)
 	private String userPwd;
+	@Column
+	private String city;
+	@Column
+	private String character;
+	@Column
+	private int silver;
 	public Account() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public Account(int userId, String username, String userPwd) {
+	public Account(int userId, String username, String userPwd, String city, String character, int silver) {
 		this.userId = userId;
 		this.username = username;
 		this.userPwd = userPwd;
+		this.city = city;
+		this.character = character;
+		this.silver = silver;
 	}
 	public int getUserId() {
 		return userId;
@@ -45,9 +55,27 @@ public class Account {
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
 	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getCharacter() {
+		return character;
+	}
+	public void setCharacter(String character) {
+		this.character = character;
+	}
+	public int getSilver() {
+		return silver;
+	}
+	public void setSilver(int silver) {
+		this.silver = silver;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(userId, userPwd, username);
+		return Objects.hash(character, city, silver, userId, userPwd, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -58,12 +86,14 @@ public class Account {
 		if (getClass() != obj.getClass())
 			return false;
 		Account other = (Account) obj;
-		return userId == other.userId && Objects.equals(userPwd, other.userPwd)
+		return Objects.equals(character, other.character) && Objects.equals(city, other.city) && silver == other.silver
+				&& userId == other.userId && Objects.equals(userPwd, other.userPwd)
 				&& Objects.equals(username, other.username);
 	}
 	@Override
 	public String toString() {
-		return "Account [userId=" + userId + ", username=" + username + ", userPwd=" + userPwd + "]";
+		return "Account [userId=" + userId + ", username=" + username + ", userPwd=" + userPwd + ", city=" + city
+				+ ", character=" + character + ", silver=" + silver + "]";
 	}
 	
 	
