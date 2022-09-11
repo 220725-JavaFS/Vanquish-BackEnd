@@ -3,7 +3,8 @@ package com.revature.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import com.revature.services.AccountService;
 
 @RestController
 @RequestMapping(value="/login")
+@CrossOrigin("*")
 public class LoginController {
 	
 	private AccountService accountService;
@@ -23,13 +25,13 @@ public class LoginController {
 		this.accountService = accountService;
 	}
 
-	@GetMapping
-	public ResponseEntity<Boolean> getAccount(@RequestBody Account account){
+	@PostMapping
+	public ResponseEntity<Account> getAccount(@RequestBody Account account){
 		String userPwd = account.getUserPwd();
 		Account userAccount = accountService.getAccountByUser(account.getUsername());
 		
 		if(userAccount != null && userAccount.getUserPwd().equals(userPwd)) {
-			return ResponseEntity.status(HttpStatus.OK).body(true);
+			return ResponseEntity.status(HttpStatus.OK).body(userAccount);
 		}else {
 			return ResponseEntity.status(204).build();
 		}
