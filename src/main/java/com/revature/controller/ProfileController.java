@@ -19,7 +19,7 @@ import com.revature.services.AccountService;
 
 @RestController
 @RequestMapping(value="/profile")
-@CrossOrigin
+@CrossOrigin("*")
 public class ProfileController {
 
 	private AccountService accountService;
@@ -36,9 +36,16 @@ public class ProfileController {
 	}
 	
 	@PutMapping(value="/{username}")
-	public ResponseEntity<List<Account>> addOrUpdate(@RequestBody Account account) {
-		accountService.addOrUpdate(account);
-		return ResponseEntity.status(HttpStatus.OK).body(accountService.findAllAccounts());
+	public ResponseEntity<Account> addOrUpdate(@RequestBody Account account) {
+//		System.out.println(account.getUsername());
+//		System.out.println(account.getCity());
+		Account tempAccount = accountService.getAccountByUser(account.getUsername());
+		tempAccount.setCity(account.getCity());
+		tempAccount.setSilver(account.getSilver());
+		tempAccount.setCharacter(account.getCharacter());
+//		account.setUserPwd(tempAccount.getUserPwd());
+		accountService.addOrUpdate(tempAccount);
+		return ResponseEntity.status(HttpStatus.OK).body(tempAccount);
 	}
 	
 	@GetMapping
